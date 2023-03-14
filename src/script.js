@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
+import { VRButton } from 'three/examples/jsm/webxr/VRButton'
 
 /**
  * Base
@@ -159,23 +160,33 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+document.body.appendChild( VRButton.createButton( renderer ) );
+renderer.xr.enabled = true;
+
 /**
  * Animate
  */
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
-    const elapsedTime = clock.getElapsedTime()
+// const tick = () =>
+// {
+//     const elapsedTime = clock.getElapsedTime()
 
-    // Update controls
+//     // Update controls
+//     controls.update()
+
+//     // Render
+//     renderer.render(scene, camera)
+
+//     // Call tick again on the next frame
+//     window.requestAnimationFrame(tick)
+// }
+
+renderer.setAnimationLoop( function () {
+
     controls.update()
+	renderer.render( scene, camera );
 
-    // Render
-    renderer.render(scene, camera)
+} );
 
-    // Call tick again on the next frame
-    window.requestAnimationFrame(tick)
-}
-
-tick()
+// tick()
